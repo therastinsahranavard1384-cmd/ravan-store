@@ -16,6 +16,9 @@ export default function Header() {
           <Link to="/" className="rounded-full px-4 py-2 text-sm text-cream/80 transition-colors hover:text-gold">خانه</Link>
           <Link to="/products" className="rounded-full px-4 py-2 text-sm text-cream/80 transition-colors hover:text-gold">محصولات</Link>
           <Link to="/about" className="rounded-full px-4 py-2 text-sm text-cream/80 transition-colors hover:text-gold">درباره ما</Link>
+          <Link to="/account" className="rounded-full px-4 py-2 text-sm text-cream/80 transition-colors hover:text-gold">
+            {user ? user.username : 'ورود / ثبت‌نام'}
+          </Link>
         </nav>
         <Link
           to="/cart"
@@ -27,9 +30,6 @@ export default function Header() {
               {num(count)}
             </span>
           )}
-        </Link>
-        <Link to="/account" className="rounded-full px-4 py-2 text-sm text-cream/80 transition-colors hover:text-gold">
-          {user ? user.username : 'ورود / ثبت‌نام'}
         </Link>
       </div>
     </header>

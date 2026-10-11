@@ -3,11 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts.js'
 import { CATEGORIES } from '../data/products.js'
 import ProductGrid from '../components/product/ProductGrid.jsx'
-import ProductImage from '../components/product/ProductImage.jsx'
-import { formatPrice } from '../utils/format.js'
 import { GridSkeleton, ErrorState } from '../components/ui/States.jsx'
 import Button from '../components/ui/Button.jsx'
 import { Button as MovingBorderButton } from '@/components/ui/moving-border'
+import ProductImage from '@/components/product/ProductImage.jsx'
 
 function SearchPanel() {
   const nav = useNavigate()
@@ -135,27 +134,7 @@ export default function Home() {
         </div>
         {loading && <GridSkeleton count={4} />}
         {error && <ErrorState message={error} onRetry={reload} />}
-        {data && (
-          <>
-            <Link
-              to={`/products/${data[0].id}`}
-              className="group grid gap-6 rounded-3xl border border-line bg-panel p-6 transition-colors duration-200 hover:border-gold md:grid-cols-2 md:items-center md:p-8"
-            >
-              <div className="overflow-hidden rounded-2xl">
-                <ProductImage product={data[0]} className="transition-transform duration-500 group-hover:scale-105" />
-              </div>
-              <div>
-                <p className="text-xs text-muted">محصول منتخب</p>
-                <h3 className="t-heading mt-2 text-cream">{data[0].name}</h3>
-                <p className="mt-2 max-w-sm text-sm text-muted">{data[0].desc}</p>
-                <p className="mt-4 text-xl font-bold text-cream">{formatPrice(data[0].price)}</p>
-              </div>
-            </Link>
-            <div className="mt-6">
-              <ProductGrid products={data.slice(1, 4)} />
-            </div>
-          </>
-        )}
+        {data && <ProductGrid products={data.slice(0, 4)} />}
       </section>
     </>
   )

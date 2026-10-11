@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react'
+import { products } from '../data/products.js'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'ravan-cart'
@@ -22,7 +23,17 @@ function reducer(state, a) {
 }
 
 function init() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [] } catch { return [] }
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    if (!Array.isArray(raw)) return []
+    return raw
+      .filter((i) => i && typeof i.key === 'string' && Number.isInteger(i.qty) && i.qty > 0 && i.qty <= 10)
+      .map((i) => {
+        const p = products.find((x) => x.id === i.id)
+        return p ? { ...i, price: p.price } : null
+      })
+      .filter(Boolean)
+  } catch { return [] }
 }
 
 export function CartProvider({ children }) {
